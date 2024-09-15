@@ -9,5 +9,6 @@ node_modules
 .DS_*
 *.rdb
 .env
+.env.dev
 experiment
 cache
