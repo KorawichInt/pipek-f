@@ -52,8 +52,8 @@ def parse_contents(contents, filename, date):
 
     # new job (yolo model)
     job = redis_rq.redis_queue.queue.enqueue(
-        # yolo_detections.detect,
-        face_detections.detect,
+        yolo_detections.detect,
+        # face_detections.detect,
         args=(image.id,),
         # job_id=f"",
         timeout=600,
