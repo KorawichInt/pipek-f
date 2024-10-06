@@ -20,6 +20,7 @@ def detect(image_id):
 
     detector = dlib.get_frontal_face_detector()
     img = cv2.imread(image.path)
+    ## request.get, add worker (que -> waiting for process) or decrease fps or decrease image size
     dets = detector(img, 1)
 
     results = dict(faces=len(dets))

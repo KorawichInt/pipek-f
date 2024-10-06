@@ -11,7 +11,7 @@ from flask import current_app
 
 from pipek import models
 from pipek.web import redis_rq
-from pipek.jobs import face_detections
+from pipek.jobs import face_detections, yolo_detections
 
 
 def parse_contents(contents, filename, date):
@@ -41,7 +41,18 @@ def parse_contents(contents, filename, date):
     models.db.session.commit()
     models.db.session.refresh(image)
 
+    # Airflow ???
+    # job = redis_rq.redis_queue.queue.enqueue(
+    #     face_detections.detect,
+    #     args=(image.id,),
+    #     # job_id=f"",
+    #     timeout=600,
+    #     job_timeout=600,
+    # )
+
+    # new job (yolo model)
     job = redis_rq.redis_queue.queue.enqueue(
+        # yolo_detections.detect,
         face_detections.detect,
         args=(image.id,),
         # job_id=f"",
@@ -49,7 +60,8 @@ def parse_contents(contents, filename, date):
         job_timeout=600,
     )
 
-    return image.id, html.Div(f"{image.id} Upload Completed")
+    # return image.id, html.Div(f"{image.id} Upload Completed")
+    return image.id, html.Div(f" Upload Completed")
 
 
 @dash.callback(
@@ -91,8 +103,16 @@ def get_image_results(n_intervals, image_ids):
         image = models.db.session.get(models.Image, image_id)
         models.db.session.commit()
 
+        # results[image.id] = dict(
+        #     status=image.status, result=image.results, updated_date=image.updated_date
+        # )
         results[image.id] = dict(
             status=image.status, result=image.results, updated_date=image.updated_date
         )
+        # output = ""
+        # for key in results.keys():
+        #     output + f"{key} : {results[key]}\n"
+        
 
     return html.Div(str(results))
+    # return html.Div(str(output))

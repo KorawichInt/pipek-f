@@ -11,11 +11,13 @@ from . import redis_caches
 
 # external_stylesheets = ["/static/node_modules/fomantic-ui-css/semantic.min.css"]
 external_stylesheets = [
-    dbc.themes.SUPERHERO,
+    # dbc.themes.SUPERHERO,
+    dbc.themes.JOURNAL,
     dbc.icons.BOOTSTRAP,
     dbc.icons.FONT_AWESOME,
 ]
-URL_BASE_PATHNAME = "/dashboard/"
+# URL_BASE_PATHNAME = "/dashboard/"
+URL_BASE_PATHNAME = "/"
 
 
 def init_dash(app):
